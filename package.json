@@ -1,0 +1,16 @@
+{
+  "name": "cherry-wasm-demo",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "cherry-cljs": "^0.1.16"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.26.5"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

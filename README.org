@@ -1,0 +1,69 @@
+#+title Compile ClojureScript to WebAssmebly using cherry and javy
+#+author Eugen Stan
+
+* Compile ClojureScript to WebAssembly
+
+This is a demo repo to try and compile ClojureScript to WASM using javy.
+
+Once we have the wasm file we can try to run it using one of the existing runtimes.
+I imagine we will need a runtime that supports GC - such as Chrome / Firefox or Node.js .
+See https://webassembly.org/features/ for un up to date list.
+
+** What we need
+
+You will need node.js for cherry and javy binary locally.
+
+You can follow the guide for cherry here: https://github.com/squint-cljs/cherry and for javy here: https://github.com/bytecodealliance/javy .
+
+I have created the example files in this repo to use as a boilerplate.
+
+** What the code looks like
+
+The code is very bare-bones - just the example from cherry site.
+
+It works. I did not try anything more than this.
+
+The final wasm is quite big at ~6.8MB
+But I'm happy with this.
+
+
+#+BEGIN_SRC clojure
+(ns my.cherry
+  (:require [cherry.embed :as cherry]))
+
+(cherry/preserve-ns 'cljs.core)
+(cherry/preserve-ns 'clojure.string)
+
+(defn add [a b]
+  (+ a b))
+
+(defn init []
+  (println "Hello from init!" (add 1 3)))
+
+(println "Hello world!" (add 1 4))
+
+#+END_SRC
+
+
+
+*** How to run
+#+BEGIN_SRC shell
+
+# compile ClojureScript via shadowclj to embed cherry.core and produce a single js file
+clojure -M:cherry:shadow release cherry-wasm
+
+# compile js to wasm
+javy compile out/js/cherry-wasm.js -o cherry.wasm
+
+# Run my-cherry.wasm using wasmtime
+wasmtime cherry.wasm
+
+Hello world! 5
+Hello from init!
+
+# Run it with node.js (output redacted for brevity)
+node --experimental-wasi-unstable-preview1 node-run-cherry-wasm.cjs
+Hello world! 5
+Hello from init! 4
+
+#+END_SRC

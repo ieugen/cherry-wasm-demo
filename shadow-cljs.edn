@@ -1,0 +1,16 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+ :deps true
+ :dependencies
+ []
+
+ :builds
+ {:cherry-wasm {:target :esm
+                :runtime :node
+                :output-dir "out/js"
+                :modules {:cherry-wasm {:init-fn my.cherry/init}}
+                :build-hooks [(shadow.cljs.build-report/hook
+                               {:output-to "out/report.html"})]}}}
