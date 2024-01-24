@@ -23,8 +23,9 @@ The code is very bare-bones - just the example from cherry site.
 
 It works. I did not try anything more than this.
 
-The final wasm is quite big at ~6.8MB
-But I'm happy with this.
+The final wasm is quite big at ~6.8MB .
+Removing cherry require's (which are needed only for evaluating clojurescript in WebAssmebly) gets the generated wasm to ~2MB.
+Still large but I'm happy with this.
 
 
 #+BEGIN_SRC clojure
@@ -67,3 +68,11 @@ Hello world! 5
 Hello from init! 4
 
 #+END_SRC
+
+
+** Current limitations
+
+Javy currently exposes a limited API for interacting with the outside world. Only stdin and stdout are allowed. See [[https://github.com/bytecodealliance/javy#invoking-javy-generated-modules-programatically][Invoking Javy-generated modules programatically]]
+I created an issue to see if we can also get command line arguments and environment variables.
+
+- [ ] [[https://github.com/bytecodealliance/javy/issues/592][Cli args and env for Javy]]
